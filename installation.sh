@@ -19,7 +19,8 @@ linux_essentials() {
         tree \
         jq \
         ufw \
-        openssh-client
+        openssh-client\
+        lsof
 }
 
 install_node_nvm() {
@@ -158,29 +159,19 @@ install_docker() {
 
 install_pocketbase() {
     echo "Installing PocketBase..."
-    # Define the PocketBase version (check https://github.com/pocketbase/pocketbase/releases for latest)
-    POCKETBASE_VERSION="v0.22.23" # Update this as needed
-    POCKETBASE_ARCH="linux_amd64" # Adjust if on ARM (e.g., linux_arm64)
-
-    # Create installation directory
-    POCKETBASE_DIR="$HOME/pocketbase"
-    mkdir -p "$POCKETBASE_DIR"
 
     # Download PocketBase
-    POCKETBASE_URL="https://github.com/pocketbase/pocketbase/releases/download/${POCKETBASE_VERSION}/pocketbase_${POCKETBASE_VERSION}_${POCKETBASE_ARCH}.zip"
-    curl -L -o "$POCKETBASE_DIR/pocketbase.zip" "$POCKETBASE_URL"
+    wget https://github.com/pocketbase/pocketbase/releases/download/v0.29.0/pocketbase_0.29.0_linux_arm64.zip
 
     # Extract the binary
-    unzip "$POCKETBASE_DIR/pocketbase.zip" -d "$POCKETBASE_DIR"
+    unzip pocketbase_0.22.8_linux_amd64.zip
+
 
     # Make the binary executable
     chmod +x "$POCKETBASE_DIR/pocketbase"
 
-    # Optional: Create a symlink for easier access (requires sudo or placing in ~/bin)
-    # mkdir -p "$HOME/bin"
-    # ln -sf "$POCKETBASE_DIR/pocketbase" "$HOME/bin/pocketbase"
-    # echo "PocketBase installed to $POCKETBASE_DIR/pocketbase"
-    # echo "Consider adding $HOME/bin to your PATH or creating a symlink in /usr/local/bin (requires sudo)."
+    # ./pocketbase serve --http=0.0.0.0:8090
+
 
     echo "PocketBase installed to $POCKETBASE_DIR/pocketbase"
     echo "PocketBase version: $($POCKETBASE_DIR/pocketbase --version)"

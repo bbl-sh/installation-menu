@@ -1,3 +1,7 @@
+# MongoDB has issues
+
+
+
 #!/bin/bash
 
 linux_essentials() {
@@ -132,31 +136,25 @@ install_python_packages_with_uv() {
 }
 
 install_docker() {
-    echo "Installing Docker..."
-    # Add Docker's official GPG key
-    sudo apt update
-    sudo apt install -y ca-certificates curl gnupg
-    sudo install -m 0755 -d /etc/apt/keyrings
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-    sudo chmod a+r /etc/apt/keyrings/docker.gpg
+  echo "Installing Docker …"
 
-    # Add the repository to Apt sources:
-    echo \
-      "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-      $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-      sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-    sudo apt update
+  # Add Docker's official GPG key:
+  sudo apt-get update
+  sudo apt-get install ca-certificates curl
+  sudo install -m 0755 -d /etc/apt/keyrings
+  sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+  sudo chmod a+r /etc/apt/keyrings/docker.asc
 
-    # Install Docker Engine, CLI, Containerd, Compose plugin
-    sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+  # Add the repository to Apt sources:
+  echo \
+    "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
+    $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+    sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  sudo apt-get update
 
-    # Add current user to docker group (requires logout/login or new shell to take effect)
-    sudo usermod -aG docker $USER
-
-    echo "Docker installed. You might need to log out and back in, or run 'newgrp docker' in your terminal, for group changes to take effect."
-    echo "Docker version: $(docker --version)"
-    echo "Docker Compose version: $(docker compose version)"
+  sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 }
+
 
 install_pocketbase() {
     echo "Installing PocketBase..."

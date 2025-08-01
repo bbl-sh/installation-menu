@@ -164,11 +164,11 @@ install_pocketbase() {
     wget https://github.com/pocketbase/pocketbase/releases/download/v0.29.0/pocketbase_0.29.0_linux_amd64.zip
 
     # Extract the binary
-    unzip pocketbase_0.29.0_linux_amd64.zip
+    unzip pocketbase
 
     mkdir -p ~/aman/db
 
-    mv pocketbase_0.29.0_linux_amd64 ~/aman/db
+    mv pocketbase ~/aman/db
     # Make the binary executable
 
     # ./pocketbase serve --http=0.0.0.0:8090
